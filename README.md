@@ -1,122 +1,111 @@
-# Express.js + Prisma Template
+# ⚡ express-prisma-ts
 
-This is a template project for building web applications with Express.js and Prisma ORM.
+> Minimal, production-ready REST API template — Express.js + Prisma + PostgreSQL + TypeScript
 
-## Overview
+---
 
-This template provides a foundation for building REST APIs with Express.js and database operations with Prisma. It includes:
+## Stack
 
-- Express.js server setup
-- Prisma ORM for database operations
-- PostgreSQL database integration
-- TypeScript support
+| Layer | Tech |
+|---|---|
+| Runtime | Node.js 18+ |
+| Framework | Express.js |
+| ORM | Prisma |
+| Database | PostgreSQL |
+| Language | TypeScript |
 
-## Features
+---
 
-- Preconfigured Express server
-- Prisma schema with User and Post models
-- Environment configuration with dotenv
-- PostgreSQL database integration
+## Quick Start
 
-## Prerequisites
+```bash
+# 1. Clone
+git clone <repository-url>
+cd express-prisma-ts
 
-- Node.js (version 16 or higher)
-- PostgreSQL database
-- npm or yarn package manager
+# 2. Install dependencies
+npm install
 
-## Setup
+# 3. Setup environment
+cp .env.example .env
+# Edit .env with your database credentials
 
-1. Clone the repository:
-   \```bash
-   git clone <repository-url>
-   \```
+# 4. Run migrations
+npx prisma migrate dev
 
-2. Install dependencies:
-   \```bash
-   npm install
-   \```
+# 5. Start dev server
+npm run dev
+```
 
-3. Set up your database:
-   - Create a .env file with your database connection string
-   - Run Prisma migrations:
-     \```bash
-     npx prisma migrate dev
-     \```
-
-4. Start the development server:
-   \```bash
-   npm run dev
-   \```
+---
 
 ## Project Structure
 
-- \`prisma/schema.prisma\` - Database schema definition
-- \`src/\` - Application source code
-- \`prisma.config.ts\` - Prisma configuration file
-- Environment variables in \`.env\` file
+```
+express-prisma-ts/
+├── prisma/
+│   └── schema.prisma       # Database schema
+├── src/
+│   ├── controllers/        # Request handlers
+│   ├── middlewares/        # Express middlewares
+│   ├── routes/             # Route definitions
+│   └── validators/         # Zod schemas
+├── .env                    # Environment variables
+├── prisma.config.ts        # Prisma configuration
+├── tsconfig.json           # TypeScript configuration
+└── package.json
+```
 
-## Development
-
-To start the development server with hot-reload:
-
-\```bash
-npm run dev
-\```
-
-## Building
-
-To build the application for production:
-
-\```bash
-npm run build
-\```
+---
 
 ## Environment Variables
 
-Create a \`.env\` file in the root directory with your database connection:
-
-\```
+```env
 DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
-\```
+JWT_SECRET="your_secret_key"
+JWT_EXPIRES_IN="2h"
+PORT=3000
+```
 
-## Prisma Schema
+---
 
-The Prisma schema includes:
-- User model with id, email, and name fields
-- Post model with title, content, and author relationship
+## Database Schema
 
-## Usage
+```prisma
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String
+  posts Post[]
+}
 
-This template is designed to be a starting point for building Express.js applications with Prisma ORM integration. You can extend it by:
+model Post {
+  id       Int    @id @default(autoincrement())
+  title    String
+  content  String?
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId Int
+}
+```
 
-1. Adding new models to the Prisma schema
-2. Creating new API endpoints in your Express server
-3. Extending the data models as needed
+---
 
-## Folder Structure
+## Scripts
 
-\```
-.
-├── generated/
-├── node_modules/
-├── prisma/
-│   └── schema.prisma
-├── src/
-│   └── (add your source code here)
-├── .env
-├── prisma.config.ts
-└── package.json
-\```
+```bash
+npm run dev      # Development server with hot-reload
+npm run build    # Compile TypeScript
+npm start        # Start production server
+```
 
-## Available Scripts
+---
 
-- \`npm run dev\` - Run the application in development mode
-- \`npm run build\` - Build the application for production
-- \`npm start\` - Start the production server
+## Extending the Template
 
-## Dependencies
+1. Add new models to `prisma/schema.prisma`
+2. Run `npx prisma migrate dev --name <migration_name>`
+3. Create controller in `src/controllers/`
+4. Add validation schema in `src/validators/`
+5. Register routes in `src/routes/`
 
-- Express.js as the web framework
-- Prisma as the ORM
-- PostgreSQL as the database
-- TypeScript for type checking
+---
