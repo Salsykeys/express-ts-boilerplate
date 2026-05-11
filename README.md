@@ -114,19 +114,3 @@ npm run dev
 ```
 
 The server will be available at `http://localhost:3000` (or your configured port)
-
-## Deployment
-
-This project includes deployment configuration for popular cloud platforms.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b my-feature`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin my-feature`
-5. Create a pull request
-
-## License
-
-MIT
